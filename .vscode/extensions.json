@@ -1,0 +1,10 @@
+{
+  "recommendations": [
+    "sumneko.lua",
+    "tomblind.local-lua-debugger-vscode",
+    "mhutchie.git-graph",
+    "eamodio.gitlens",
+    "johnnymorganz.stylua",
+    "bubuabu.busted-test-explorer"
+  ]
+}

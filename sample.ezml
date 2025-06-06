@@ -1,0 +1,59 @@
+\& {bi} {\b {\i{\${1}}}}
+
+
+\doc
+[margin |  .5cm 1cm] 
+[background-color | bisque]
+[font-family | Arial]
+{
+\pg
+
+\h1 [font-size|5em] {\cp {my titile}}
+
+\pg
+
+\p {
+    blah blah blah... \text[color|blue] {blue text  \b{bold} \i{sfasdf}}
+}
+\pg
+\p {
+    blah blah blah... 
+}
+
+\pg
+
+\# {
+    ads
+    asdf 
+    asdf 
+    asdf 
+    asd
+    f 
+    ad
+    fas
+}
+
+\h2 {
+    a list
+}
+
+\ul{\li{one}\li{two}\li{three}}
+
+
+\~{backslash}  \backslash \bs
+
+\section {
+    \blockquote {
+    asdf
+    sfasdfasd 
+    familysdf
+    asdf
+    asdfasd
+    fa
+    sfasdf
+}
+
+\text[font-size|3em] {\bi{WOO}}
+}
+
+}
