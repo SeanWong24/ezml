@@ -36,11 +36,11 @@ end)()
 local grammar = P({
 	"Root",
 
-	Root = Ct(V("Command") ^ 0) / function(contents)
+	Root = Ct(V("Block")) / function(contents)
 		return generate_command_table("__BLOCK__", nil, contents)
 	end,
 
-	Command = add_postions(V("UserCommand") + V("Block") + V("Text")),
+	Command = add_postions(V("UserCommand") + V("BracedBlock") + V("Text")),
 
 	Text = Ct(C((1 - TKN.PRESERVED) ^ 1)) / function(s)
 		return generate_command_table("__TEXT__", nil, s)
@@ -50,7 +50,7 @@ local grammar = P({
 		TKN.BACK_SLASH
 			* Cg(V("CommandName"), "name")
 			* Cg(Ct(V("NamedParameter") ^ 0), "named_parameters")
-			* Cg(Ct((TKN.WHITESPACE ^ 0 * V("Block")) ^ 0), "positional_parameters")
+			* Cg(Ct((TKN.WHITESPACE ^ 0 * V("BracedBlock")) ^ 0), "positional_parameters")
 	) / function(contents)
 		return generate_command_table(contents.name, contents.named_parameters, contents.positional_parameters)
 	end,
@@ -95,9 +95,11 @@ local grammar = P({
 		end
 	end),
 
-	Block = Ct(TKN.L_BRACE * (V("Command") ^ 0) * TKN.R_BRACE) / function(contents)
+	BracedBlock = Ct(TKN.L_BRACE * V("Block") * TKN.R_BRACE) / function(contents)
 		return generate_command_table("__BLOCK__", nil, contents)
 	end,
+
+	Block = V("Command") ^ 0,
 })
 
 local function simplify(node)
