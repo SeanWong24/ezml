@@ -1,7 +1,7 @@
 local inspect = require("inspect")
-local File = require("utils.file")
-local Renderer = require("utils.renderer")
-local parser = require("utils.parser")
+local File = require("file")
+local Renderer = require("renderer")
+local parser = require("parser")
 
 local FILE_PATH = "./sample.ezml"
 

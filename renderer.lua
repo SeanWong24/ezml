@@ -1,5 +1,5 @@
-local Context = require("utils.context")
-local Sandbox = require("utils.sandbox")
+local Context = require("context")
+local Sandbox = require("sandbox")
 
 local Renderer = {}
 
