@@ -1,44 +1,32 @@
 local Core = {}
 
 local function normalize_whitespaces(str)
-	-- Check if original string ends with whitespace
-	local ends_with_space = str:match("%s$") ~= nil
-
-	-- Check if string is only whitespace
-	local only_whitespace = str:match("^%s*$") ~= nil
-
 	-- Normalize CRLF to LF
 	str = str:gsub("\r\n", "\n")
 
-	-- Mark paragraph breaks (2 or more newlines)
-	str = str:gsub("\n\n+", "<PARA>")
+	-- Pattern to match paragraphs separated by blank lines (2+ newlines)
+	local PARAGRAPH_PATTERN = "([^%s][^\n]*[^%s]?)%s*\n*\n*"
 
-	-- Collapse all whitespace (spaces, tabs, newlines) to a single space
-	str = str:gsub("%s+", " ")
+	local paragraphs = {}
 
-	-- Restore paragraph breaks as newlines
-	str = str:gsub("<PARA>", "\n")
-
-	-- Trim leading and trailing whitespace
-	str = str:gsub("^%s+", ""):gsub("%s+$", "")
-
-	-- If original was only whitespace, return single space
-	if only_whitespace then
-		return " "
+	for para in str:gmatch(PARAGRAPH_PATTERN) do
+		-- Collapse all whitespace inside paragraph to a single space
+		para = para:gsub("%s+", " ")
+		table.insert(paragraphs, para)
 	end
 
-	-- If original ended with whitespace, add one trailing space
-	if ends_with_space then
-		return str .. " "
-	else
-		return str
+	-- If no paragraphs matched (e.g., all whitespace), collapse entire string
+	if #paragraphs == 0 then
+		return str:gsub("%s+", " ")
 	end
+
+	-- Join paragraphs with a single newline
+	return table.concat(paragraphs, "\n")
 end
 
 Core[""] = function(context, _, p)
 	local resolve = context.helpers.utils.resolve
 	local result = {}
-	-- local last_was_whitespace = false
 
 	for _, item in ipairs(p or {}) do
 		local str = type(item) == "string" and item or resolve(item)
