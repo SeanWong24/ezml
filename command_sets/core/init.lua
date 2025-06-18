@@ -71,8 +71,11 @@ Core["&"] = function(context, _, p)
 	local body = p[2]
 	local handler = function(context, n, p)
 		n = context.helpers.utils.flatten_named_parameters(n)
-		context.n = n or {}
-		context.p = p or {}
+		if context.env["&"] == nil then
+			context.env["&"] = {}
+		end
+		context.env["&"].n = n or {}
+		context.env["&"].p = p or {}
 		local resolved_body = resolve(body or "", context)
 		return resolved_body or ""
 	end
@@ -84,11 +87,11 @@ Core["$"] = function(context, n, p)
 	local resolve = context.helpers.utils.resolve
 	local name = context.helpers.utils.flatten_named_parameters(n)
 	for k in pairs(name) do
-		return context.n and resolve(context.n[resolve(k)]) or ""
+		return context.env["&"].n and resolve(context.env["&"].n[resolve(k)]) or ""
 	end
 	local position = tonumber(resolve(p[1])) or 1
 	if position then
-		return context.p and resolve(context.p[position]) or ""
+		return context.env["&"].p and resolve(context.env["&"].p[position]) or ""
 	end
 	return ""
 end
