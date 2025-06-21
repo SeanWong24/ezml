@@ -7,8 +7,9 @@ local FILE_PATH = "./sample.ezml"
 
 local COMMAND_SETS = {
 	"command_sets.core",
-	"command_sets.basic",
 	"command_sets.short",
+	"command_sets.basic",
+	"command_sets.math",
 	-- add more module paths here
 }
 
