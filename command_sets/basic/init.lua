@@ -22,8 +22,8 @@ local tag_map = {
 		"body",
 		{ margin = 0 },
 		function(content)
-			return '<style>@page {@top-center {content: ""} @bottom-center {content: "Page " counter(page); font-family: Arial;}}</style>'
-			.. content
+			return '<style>@page {size: A4; margin: 1in; @top-center {content: ""} @bottom-center {content: counter(page);}}</style>'
+				.. content
 		end,
 	},
 	h1 = "h1",
@@ -100,7 +100,9 @@ local function handle_tag_map(key)
 
 		local style_parts = {}
 		for k, v in pairs(final_css) do
-			table.insert(style_parts, k .. ": " .. v .. ";")
+			if v ~= nil and v ~= "" then
+				table.insert(style_parts, k .. ": " .. v .. ";")
+			end
 		end
 
 		local style_attr = ""
